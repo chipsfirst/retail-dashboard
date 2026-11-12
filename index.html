@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Дашборд интернет-магазина</title>
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
+<style>
+  :root {
+    --bg: #f5f6f8; --card: #ffffff; --ink: #1f2937; --muted: #6b7280;
+    --accent: #3b6fd4; --accent2: #f2b134; --line: #e5e7eb;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; }
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 32px 24px 48px; }
+  header { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap; }
+  h1 { font-size: 28px; margin: 0 0 6px; }
+  .sub { color: var(--muted); font-size: 14px; }
+  .kpis { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px; margin: 24px 0; }
+  .kpi { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; }
+  .kpi .label { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .04em; }
+  .kpi .value { font-size: 26px; font-weight: 700; margin-top: 6px; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 8px 8px 0; }
+  .card.wide { grid-column: 1 / -1; }
+  .card h2 { font-size: 15px; margin: 12px 14px 0; font-weight: 600; }
+  .chart { height: 340px; }
+  .chart.tall { height: 420px; }
+  footer { color: var(--muted); font-size: 13px; margin-top: 24px; }
+  @media (max-width: 980px) {
+    .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Интернет-магазин: основные метрики</h1>
+      <div class="sub">Оплаченные заказы, период 01.2024 — 12.2025. Синтетические данные учебного кейса.</div>
+    </div>
+    <div class="sub">Обновлено 12.11.2026</div>
+  </header>
+
+  <section class="kpis">
+    <div class="kpi"><div class="label">Выручка</div><div class="value" id="kpi-revenue"></div></div>
+    <div class="kpi"><div class="label">Заказы</div><div class="value" id="kpi-orders"></div></div>
+    <div class="kpi"><div class="label">Средний чек</div><div class="value" id="kpi-aov"></div></div>
+    <div class="kpi"><div class="label">Покупатели</div><div class="value" id="kpi-customers"></div></div>
+    <div class="kpi"><div class="label">Доля повторных</div><div class="value" id="kpi-repeat"></div></div>
+  </section>
+
+  <section class="grid">
+    <div class="card wide">
+      <h2>Выручка и число заказов по месяцам</h2>
+      <div class="chart tall" id="chart-monthly"></div>
+    </div>
+    <div class="card">
+      <h2>Структура выручки по категориям</h2>
+      <div class="chart" id="chart-category"></div>
+    </div>
+    <div class="card">
+      <h2>Новые и вернувшиеся покупатели</h2>
+      <div class="chart" id="chart-cohort"></div>
+    </div>
+    <div class="card">
+      <h2>Средний чек и медиана</h2>
+      <div class="chart" id="chart-aov"></div>
+    </div>
+    <div class="card">
+      <h2>Топ-10 товаров по выручке</h2>
+      <div class="chart" id="chart-products"></div>
+    </div>
+  </section>
+
+  <footer>
+    Источник: синтетические данные проекта sql-retail-case (seed=42). Метрики считаются по оплаченным заказам.
+  </footer>
+</div>
+
+<script>
+const DATA = {"kpi": {"revenue": 298473039.60300004, "orders": 13052, "aov": 22867.992614388604, "customers": 6002, "repeat_share": 61.01299566811063, "period": "01.2024 — 12.2025"}, "monthly": [{"month": "2024-01", "orders": 282, "revenue": 6728822.4315, "aov": 23861.07245212766, "median_check": 16613.7045}, {"month": "2024-02", "orders": 299, "revenue": 6157983.669, "aov": 20595.26310702341, "median_check": 13095.619999999999}, {"month": "2024-03", "orders": 320, "revenue": 6962665.0075, "aov": 21758.3281484375, "median_check": 12513.055}, {"month": "2024-04", "orders": 355, "revenue": 8019667.1855, "aov": 22590.611790140843, "median_check": 16038.75}, {"month": "2024-05", "orders": 423, "revenue": 10518282.934, "aov": 24865.917101654846, "median_check": 16249.552}, {"month": "2024-06", "orders": 367, "revenue": 8086130.3245, "aov": 22033.052655313353, "median_check": 13240.107}, {"month": "2024-07", "orders": 414, "revenue": 9041877.5635, "aov": 21840.283969806762, "median_check": 14533.96825}, {"month": "2024-08", "orders": 405, "revenue": 9439676.0875, "aov": 23307.842191358024, "median_check": 15656.44}, {"month": "2024-09", "orders": 499, "revenue": 12041909.259, "aov": 24132.082683366734, "median_check": 17275.620000000003}, {"month": "2024-10", "orders": 569, "revenue": 12685942.0415, "aov": 22295.152972759228, "median_check": 14619.119999999999}, {"month": "2024-11", "orders": 615, "revenue": 13247762.464, "aov": 21541.077177235773, "median_check": 13148.54}, {"month": "2024-12", "orders": 707, "revenue": 16020876.3585, "aov": 22660.362600424327, "median_check": 15211.560000000001}, {"month": "2025-01", "orders": 477, "revenue": 10650417.9515, "aov": 22327.920233752622, "median_check": 15219.42}, {"month": "2025-02", "orders": 474, "revenue": 11092513.099, "aov": 23401.92636919831, "median_check": 15190.36}, {"month": "2025-03", "orders": 599, "revenue": 12374646.5335, "aov": 20658.842292988316, "median_check": 13462.96}, {"month": "2025-04", "orders": 561, "revenue": 13701998.5735, "aov": 24424.239881461675, "median_check": 16585.606}, {"month": "2025-05", "orders": 649, "revenue": 14857547.018, "aov": 22892.98461941448, "median_check": 15253.241999999998}, {"month": "2025-06", "orders": 587, "revenue": 14518829.954, "aov": 24733.952221465075, "median_check": 16246.41}, {"month": "2025-07", "orders": 616, "revenue": 14512715.73, "aov": 23559.603457792207, "median_check": 15521.62675}, {"month": "2025-08", "orders": 634, "revenue": 15669715.875, "aov": 24715.64018138801, "median_check": 17046.692000000003}, {"month": "2025-09", "orders": 693, "revenue": 15495898.438, "aov": 22360.603806637806, "median_check": 15604.583999999999}, {"month": "2025-10", "orders": 735, "revenue": 16995205.855, "aov": 23122.72905442177, "median_check": 15134.529999999999}, {"month": "2025-11", "orders": 808, "revenue": 18205881.0265, "aov": 22532.03097339109, "median_check": 14969.3405}, {"month": "2025-12", "orders": 964, "revenue": 21446074.223, "aov": 22246.964961618258, "median_check": 15064.203749999999}], "category": [{"category": "Электроника", "net": 160488768.318}, {"category": "Дом и кухня", "net": 43141364.2435}, {"category": "Одежда", "net": 39133686.743}, {"category": "Спорт", "net": 27507736.81}, {"category": "Игры", "net": 10391201.997}, {"category": "Красота", "net": 9733555.4265}, {"category": "Зоотовары", "net": 4758678.644}, {"category": "Книги", "net": 3318047.421}], "cohort": [{"month": "2024-01", "new": 282, "customers": 282, "returning": 0}, {"month": "2024-02", "new": 257, "customers": 299, "returning": 42}, {"month": "2024-03", "new": 250, "customers": 320, "returning": 70}, {"month": "2024-04", "new": 258, "customers": 355, "returning": 97}, {"month": "2024-05", "new": 267, "customers": 423, "returning": 156}, {"month": "2024-06", "new": 228, "customers": 367, "returning": 139}, {"month": "2024-07", "new": 247, "customers": 414, "returning": 167}, {"month": "2024-08", "new": 228, "customers": 405, "returning": 177}, {"month": "2024-09", "new": 241, "customers": 499, "returning": 258}, {"month": "2024-10", "new": 293, "customers": 569, "returning": 276}, {"month": "2024-11", "new": 282, "customers": 615, "returning": 333}, {"month": "2024-12", "new": 304, "customers": 707, "returning": 403}, {"month": "2025-01", "new": 213, "customers": 477, "returning": 264}, {"month": "2025-02", "new": 226, "customers": 474, "returning": 248}, {"month": "2025-03", "new": 290, "customers": 599, "returning": 309}, {"month": "2025-04", "new": 231, "customers": 561, "returning": 330}, {"month": "2025-05", "new": 260, "customers": 649, "returning": 389}, {"month": "2025-06", "new": 258, "customers": 587, "returning": 329}, {"month": "2025-07", "new": 223, "customers": 616, "returning": 393}, {"month": "2025-08", "new": 242, "customers": 634, "returning": 392}, {"month": "2025-09", "new": 272, "customers": 693, "returning": 421}, {"month": "2025-10", "new": 270, "customers": 735, "returning": 465}, {"month": "2025-11", "new": 293, "customers": 808, "returning": 515}, {"month": "2025-12", "new": 347, "customers": 964, "returning": 617}], "products": [{"name": "Монитор Kite 5", "category": "Электроника", "net": 11052511.9135}, {"name": "Планшет Kite 5", "category": "Электроника", "net": 9252170.319}, {"name": "Планшет Kite 4", "category": "Электроника", "net": 8807268.8505}, {"name": "Монитор Aurora 5", "category": "Электроника", "net": 8238298.3875}, {"name": "Роутер Volt 1", "category": "Электроника", "net": 8224453.415}, {"name": "Роутер Orbis 7", "category": "Электроника", "net": 8194770.398}, {"name": "Мышь Aurora 2", "category": "Электроника", "net": 7522890.919}, {"name": "Планшет Delta 5", "category": "Электроника", "net": 7499522.28}, {"name": "Мышь Orbis 4", "category": "Электроника", "net": 7437952.627}, {"name": "Планшет Aurora 4", "category": "Электроника", "net": 7242364.963}], "generated": "12.11.2026"};
+const rub = v => v.toLocaleString('ru-RU', { maximumFractionDigits: 0 }) + ' ₽';
+const num = v => v.toLocaleString('ru-RU');
+const monthLabel = m => {
+  const [y, mm] = m.split('-');
+  const names = ['янв','фев','мар','апр','май','июн','июл','авг','сен','окт','ноя','дек'];
+  return names[Number(mm) - 1] + ' ' + y.slice(2);
+};
+
+const layout = (extra = {}) => Object.assign({
+  margin: { l: 56, r: 24, t: 16, b: 48 },
+  paper_bgcolor: 'rgba(0,0,0,0)',
+  plot_bgcolor: 'rgba(0,0,0,0)',
+  font: { family: 'inherit', size: 12, color: '#374151' },
+  hoverlabel: { bgcolor: '#111827', font: { color: '#fff' } }
+}, extra);
+const config = { displayModeBar: false, responsive: true };
+
+document.getElementById('kpi-revenue').textContent = rub(DATA.kpi.revenue);
+document.getElementById('kpi-orders').textContent = num(DATA.kpi.orders);
+document.getElementById('kpi-aov').textContent = rub(DATA.kpi.aov);
+document.getElementById('kpi-customers').textContent = num(DATA.kpi.customers);
+document.getElementById('kpi-repeat').textContent = DATA.kpi.repeat_share.toFixed(1) + ' %';
+
+const months = DATA.monthly.map(r => monthLabel(r.month));
+
+Plotly.newPlot('chart-monthly', [
+  {
+    x: months, y: DATA.monthly.map(r => r.revenue), type: 'bar', name: 'Выручка',
+    marker: { color: '#3b6fd4' }, hovertemplate: '%{x}<br>%{y:,.0f} ₽<extra></extra>'
+  },
+  {
+    x: months, y: DATA.monthly.map(r => r.orders), type: 'scatter', mode: 'lines+markers',
+    name: 'Заказы', yaxis: 'y2', line: { color: '#f2b134', width: 3 },
+    hovertemplate: '%{x}<br>%{y} заказов<extra></extra>'
+  }
+], layout({
+  yaxis: { title: 'Выручка, ₽', gridcolor: '#eef0f3', tickformat: ',.0f' },
+  yaxis2: { title: 'Заказы', overlaying: 'y', side: 'right', showgrid: false },
+  legend: { orientation: 'h', y: 1.12, x: 0 },
+  bargap: 0.35
+}), config);
+
+Plotly.newPlot('chart-category', [{
+  labels: DATA.category.map(r => r.category),
+  values: DATA.category.map(r => r.net),
+  type: 'pie', hole: 0.55,
+  marker: { colors: ['#3b6fd4','#5b8def','#7aa7f5','#9cc0f8','#f2b134','#f6c65b','#9aa7b8','#c3ccd8'] },
+  textinfo: 'percent', hovertemplate: '%{label}<br>%{value:,.0f} ₽<extra></extra>'
+}], layout({ showlegend: true, legend: { orientation: 'v', x: 0.98, y: 0.5 } }), config);
+
+Plotly.newPlot('chart-cohort', [
+  { x: DATA.cohort.map(r => monthLabel(r.month)), y: DATA.cohort.map(r => r.new),
+     type: 'bar', name: 'Новые', marker: { color: '#3b6fd4' } },
+  { x: DATA.cohort.map(r => monthLabel(r.month)), y: DATA.cohort.map(r => r.returning),
+     type: 'bar', name: 'Вернувшиеся', marker: { color: '#f2b134' } }
+], layout({ barmode: 'stack', yaxis: { title: 'Покупателей', gridcolor: '#eef0f3' },
+             legend: { orientation: 'h', y: 1.12, x: 0 } }), config);
+
+Plotly.newPlot('chart-aov', [
+  { x: months, y: DATA.monthly.map(r => r.aov), type: 'scatter', mode: 'lines+markers',
+     name: 'Средний чек', line: { color: '#3b6fd4', width: 3 } },
+  { x: months, y: DATA.monthly.map(r => r.median_check), type: 'scatter', mode: 'lines+markers',
+     name: 'Медиана', line: { color: '#f2b134', width: 3, dash: 'dot' } }
+], layout({ yaxis: { title: '₽', gridcolor: '#eef0f3', tickformat: ',.0f' },
+             legend: { orientation: 'h', y: 1.12, x: 0 } }), config);
+
+const products = [...DATA.products].reverse();
+Plotly.newPlot('chart-products', [{
+  x: products.map(r => r.net), y: products.map(r => r.name), type: 'bar', orientation: 'h',
+  marker: { color: '#3b6fd4' }, hovertemplate: '%{y}<br>%{x:,.0f} ₽<extra></extra>'
+}], layout({ margin: { l: 190, r: 24, t: 8, b: 40 },
+              xaxis: { title: 'Выручка, ₽', gridcolor: '#eef0f3', tickformat: ',.0f' } }), config);
+</script>
+</body>
+</html>
