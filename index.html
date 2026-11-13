@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Дашборд интернет-магазина</title>
+<title>Online Retail II — дашборд</title>
 <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
 <style>
   :root {
@@ -38,10 +38,10 @@
 <div class="wrap">
   <header>
     <div>
-      <h1>Интернет-магазин: основные метрики</h1>
-      <div class="sub">Оплаченные заказы, период 01.2024 — 12.2025. Синтетические данные учебного кейса.</div>
+      <h1>Online Retail II: основные метрики</h1>
+      <div class="sub">Оплаченные заказы, период 12.2009 — 12.2011. Данные Kaggle (CC0), британский оптовик.</div>
     </div>
-    <div class="sub">Обновлено 12.11.2026</div>
+    <div class="sub">Обновлено 13.11.2026</div>
   </header>
 
   <section class="kpis">
@@ -58,8 +58,8 @@
       <div class="chart tall" id="chart-monthly"></div>
     </div>
     <div class="card">
-      <h2>Структура выручки по категориям</h2>
-      <div class="chart" id="chart-category"></div>
+      <h2>Структура выручки по странам</h2>
+      <div class="chart" id="chart-country"></div>
     </div>
     <div class="card">
       <h2>Новые и вернувшиеся покупатели</h2>
@@ -76,13 +76,14 @@
   </section>
 
   <footer>
-    Источник: синтетические данные проекта sql-retail-case (seed=42). Метрики считаются по оплаченным заказам.
+    Источник: Online Retail II, Kaggle, лицензия CC0 1.0. Только оплаченные заказы; отмены исключены.
+    Декабрь 2011 обрезан — данные до 9 декабря.
   </footer>
 </div>
 
 <script>
-const DATA = {"kpi": {"revenue": 298473039.60300004, "orders": 13052, "aov": 22867.992614388604, "customers": 6002, "repeat_share": 61.01299566811063, "period": "01.2024 — 12.2025"}, "monthly": [{"month": "2024-01", "orders": 282, "revenue": 6728822.4315, "aov": 23861.07245212766, "median_check": 16613.7045}, {"month": "2024-02", "orders": 299, "revenue": 6157983.669, "aov": 20595.26310702341, "median_check": 13095.619999999999}, {"month": "2024-03", "orders": 320, "revenue": 6962665.0075, "aov": 21758.3281484375, "median_check": 12513.055}, {"month": "2024-04", "orders": 355, "revenue": 8019667.1855, "aov": 22590.611790140843, "median_check": 16038.75}, {"month": "2024-05", "orders": 423, "revenue": 10518282.934, "aov": 24865.917101654846, "median_check": 16249.552}, {"month": "2024-06", "orders": 367, "revenue": 8086130.3245, "aov": 22033.052655313353, "median_check": 13240.107}, {"month": "2024-07", "orders": 414, "revenue": 9041877.5635, "aov": 21840.283969806762, "median_check": 14533.96825}, {"month": "2024-08", "orders": 405, "revenue": 9439676.0875, "aov": 23307.842191358024, "median_check": 15656.44}, {"month": "2024-09", "orders": 499, "revenue": 12041909.259, "aov": 24132.082683366734, "median_check": 17275.620000000003}, {"month": "2024-10", "orders": 569, "revenue": 12685942.0415, "aov": 22295.152972759228, "median_check": 14619.119999999999}, {"month": "2024-11", "orders": 615, "revenue": 13247762.464, "aov": 21541.077177235773, "median_check": 13148.54}, {"month": "2024-12", "orders": 707, "revenue": 16020876.3585, "aov": 22660.362600424327, "median_check": 15211.560000000001}, {"month": "2025-01", "orders": 477, "revenue": 10650417.9515, "aov": 22327.920233752622, "median_check": 15219.42}, {"month": "2025-02", "orders": 474, "revenue": 11092513.099, "aov": 23401.92636919831, "median_check": 15190.36}, {"month": "2025-03", "orders": 599, "revenue": 12374646.5335, "aov": 20658.842292988316, "median_check": 13462.96}, {"month": "2025-04", "orders": 561, "revenue": 13701998.5735, "aov": 24424.239881461675, "median_check": 16585.606}, {"month": "2025-05", "orders": 649, "revenue": 14857547.018, "aov": 22892.98461941448, "median_check": 15253.241999999998}, {"month": "2025-06", "orders": 587, "revenue": 14518829.954, "aov": 24733.952221465075, "median_check": 16246.41}, {"month": "2025-07", "orders": 616, "revenue": 14512715.73, "aov": 23559.603457792207, "median_check": 15521.62675}, {"month": "2025-08", "orders": 634, "revenue": 15669715.875, "aov": 24715.64018138801, "median_check": 17046.692000000003}, {"month": "2025-09", "orders": 693, "revenue": 15495898.438, "aov": 22360.603806637806, "median_check": 15604.583999999999}, {"month": "2025-10", "orders": 735, "revenue": 16995205.855, "aov": 23122.72905442177, "median_check": 15134.529999999999}, {"month": "2025-11", "orders": 808, "revenue": 18205881.0265, "aov": 22532.03097339109, "median_check": 14969.3405}, {"month": "2025-12", "orders": 964, "revenue": 21446074.223, "aov": 22246.964961618258, "median_check": 15064.203749999999}], "category": [{"category": "Электроника", "net": 160488768.318}, {"category": "Дом и кухня", "net": 43141364.2435}, {"category": "Одежда", "net": 39133686.743}, {"category": "Спорт", "net": 27507736.81}, {"category": "Игры", "net": 10391201.997}, {"category": "Красота", "net": 9733555.4265}, {"category": "Зоотовары", "net": 4758678.644}, {"category": "Книги", "net": 3318047.421}], "cohort": [{"month": "2024-01", "new": 282, "customers": 282, "returning": 0}, {"month": "2024-02", "new": 257, "customers": 299, "returning": 42}, {"month": "2024-03", "new": 250, "customers": 320, "returning": 70}, {"month": "2024-04", "new": 258, "customers": 355, "returning": 97}, {"month": "2024-05", "new": 267, "customers": 423, "returning": 156}, {"month": "2024-06", "new": 228, "customers": 367, "returning": 139}, {"month": "2024-07", "new": 247, "customers": 414, "returning": 167}, {"month": "2024-08", "new": 228, "customers": 405, "returning": 177}, {"month": "2024-09", "new": 241, "customers": 499, "returning": 258}, {"month": "2024-10", "new": 293, "customers": 569, "returning": 276}, {"month": "2024-11", "new": 282, "customers": 615, "returning": 333}, {"month": "2024-12", "new": 304, "customers": 707, "returning": 403}, {"month": "2025-01", "new": 213, "customers": 477, "returning": 264}, {"month": "2025-02", "new": 226, "customers": 474, "returning": 248}, {"month": "2025-03", "new": 290, "customers": 599, "returning": 309}, {"month": "2025-04", "new": 231, "customers": 561, "returning": 330}, {"month": "2025-05", "new": 260, "customers": 649, "returning": 389}, {"month": "2025-06", "new": 258, "customers": 587, "returning": 329}, {"month": "2025-07", "new": 223, "customers": 616, "returning": 393}, {"month": "2025-08", "new": 242, "customers": 634, "returning": 392}, {"month": "2025-09", "new": 272, "customers": 693, "returning": 421}, {"month": "2025-10", "new": 270, "customers": 735, "returning": 465}, {"month": "2025-11", "new": 293, "customers": 808, "returning": 515}, {"month": "2025-12", "new": 347, "customers": 964, "returning": 617}], "products": [{"name": "Монитор Kite 5", "category": "Электроника", "net": 11052511.9135}, {"name": "Планшет Kite 5", "category": "Электроника", "net": 9252170.319}, {"name": "Планшет Kite 4", "category": "Электроника", "net": 8807268.8505}, {"name": "Монитор Aurora 5", "category": "Электроника", "net": 8238298.3875}, {"name": "Роутер Volt 1", "category": "Электроника", "net": 8224453.415}, {"name": "Роутер Orbis 7", "category": "Электроника", "net": 8194770.398}, {"name": "Мышь Aurora 2", "category": "Электроника", "net": 7522890.919}, {"name": "Планшет Delta 5", "category": "Электроника", "net": 7499522.28}, {"name": "Мышь Orbis 4", "category": "Электроника", "net": 7437952.627}, {"name": "Планшет Aurora 4", "category": "Электроника", "net": 7242364.963}], "generated": "12.11.2026"};
-const rub = v => v.toLocaleString('ru-RU', { maximumFractionDigits: 0 }) + ' ₽';
+const DATA = {"kpi": {"revenue": 20047596.66, "orders": 39513, "aov": 507.3671110773669, "customers": 5852, "repeat_share": 72.35133287764867, "period": "12.2009 — 12.2011"}, "monthly": [{"month": "2009-12", "orders": 1666, "revenue": 789010.1900000001, "aov": 473.5955522208884, "median_check": 294.70000000000005}, {"month": "2010-01", "orders": 1049, "revenue": 607221.02, "aov": 578.8570257387988, "median_check": 308.24}, {"month": "2010-02", "orders": 1189, "revenue": 536503.22, "aov": 451.222220353238, "median_check": 286.41999999999996}, {"month": "2010-03", "orders": 1647, "revenue": 760217.89, "aov": 461.5773466909533, "median_check": 291.76}, {"month": "2010-04", "orders": 1435, "revenue": 646369.63, "aov": 450.4317979094077, "median_check": 305.18}, {"month": "2010-05", "orders": 1484, "revenue": 644952.63, "aov": 434.60419811320753, "median_check": 287.885}, {"month": "2010-06", "orders": 1612, "revenue": 698016.0, "aov": 433.01240694789084, "median_check": 288.225}, {"month": "2010-07", "orders": 1507, "revenue": 633068.39, "aov": 420.085195753152, "median_check": 281.55}, {"month": "2010-08", "orders": 1402, "revenue": 672863.91, "aov": 479.9314621968617, "median_check": 301.71}, {"month": "2010-09", "orders": 1789, "revenue": 869777.01, "aov": 486.18055338177754, "median_check": 303.35}, {"month": "2010-10", "orders": 2244, "revenue": 1094196.48, "aov": 487.6098395721925, "median_check": 310.745}, {"month": "2010-11", "orders": 2718, "revenue": 1432761.32, "aov": 527.1380868285504, "median_check": 300.145}, {"month": "2010-12", "orders": 1549, "revenue": 1185062.8800000001, "aov": 765.0502775984507, "median_check": 350.24}, {"month": "2011-01", "orders": 1080, "revenue": 670829.78, "aov": 621.1386851851852, "median_check": 305.67}, {"month": "2011-02", "orders": 1093, "revenue": 508085.05, "aov": 464.853659652333, "median_check": 302.86}, {"month": "2011-03", "orders": 1440, "revenue": 690369.66, "aov": 479.423375, "median_check": 293.46000000000004}, {"month": "2011-04", "orders": 1235, "revenue": 515584.58, "aov": 417.4773927125506, "median_check": 300.25}, {"month": "2011-05", "orders": 1668, "revenue": 739964.26, "aov": 443.62365707434054, "median_check": 304.51}, {"month": "2011-06", "orders": 1525, "revenue": 737802.78, "aov": 483.8051016393443, "median_check": 283.95}, {"month": "2011-07", "orders": 1452, "revenue": 686564.52, "aov": 472.8405785123967, "median_check": 301.325}, {"month": "2011-08", "orders": 1339, "revenue": 724139.65, "aov": 540.8063106796117, "median_check": 305.34000000000003}, {"month": "2011-09", "orders": 1818, "revenue": 1028873.78, "aov": 565.9371727172718, "median_check": 323.70500000000004}, {"month": "2011-10", "orders": 2005, "revenue": 1103711.2, "aov": 550.4794014962594, "median_check": 313.4}, {"month": "2011-11", "orders": 2751, "revenue": 1456671.44, "aov": 529.5061577608142, "median_check": 298.48}, {"month": "2011-12", "orders": 816, "revenue": 614979.39, "aov": 753.6512132352941, "median_check": 296.53999999999996}], "countries": [{"country": "United Kingdom", "revenue": 17179278.98, "orders": 36181}, {"country": "EIRE", "revenue": 625298.15, "orders": 581}, {"country": "Netherlands", "revenue": 549952.78, "orders": 216}, {"country": "Germany", "revenue": 387426.07, "orders": 753}, {"country": "France", "revenue": 315336.35, "orders": 598}, {"country": "Australia", "revenue": 168466.81, "orders": 89}, {"country": "Spain", "revenue": 98612.79000000001, "orders": 144}, {"country": "Switzerland", "revenue": 94198.89, "orders": 85}, {"country": "Другие страны", "revenue": 629025.84, "orders": 866}], "cohort": [{"month": "2009-12", "new": 951, "customers": 951, "returning": 0}, {"month": "2010-01", "new": 368, "customers": 701, "returning": 333}, {"month": "2010-02", "new": 375, "customers": 771, "returning": 396}, {"month": "2010-03", "new": 441, "customers": 1051, "returning": 610}, {"month": "2010-04", "new": 294, "customers": 939, "returning": 645}, {"month": "2010-05", "new": 255, "customers": 965, "returning": 710}, {"month": "2010-06", "new": 267, "customers": 1034, "returning": 767}, {"month": "2010-07", "new": 185, "customers": 924, "returning": 739}, {"month": "2010-08", "new": 163, "customers": 910, "returning": 747}, {"month": "2010-09", "new": 239, "customers": 1136, "returning": 897}, {"month": "2010-10", "new": 375, "customers": 1492, "returning": 1117}, {"month": "2010-11", "new": 326, "customers": 1606, "returning": 1280}, {"month": "2010-12", "new": 433, "customers": 883, "returning": 450}, {"month": "2011-01", "new": 156, "customers": 739, "returning": 583}, {"month": "2011-02", "new": 182, "customers": 757, "returning": 575}, {"month": "2011-03", "new": 267, "customers": 973, "returning": 706}, {"month": "2011-04", "new": 148, "customers": 853, "returning": 705}, {"month": "2011-05", "new": 150, "customers": 1054, "returning": 904}, {"month": "2011-06", "new": 148, "customers": 990, "returning": 842}, {"month": "2011-07", "new": 125, "customers": 946, "returning": 821}, {"month": "2011-08", "new": 131, "customers": 933, "returning": 802}, {"month": "2011-09", "new": 242, "customers": 1259, "returning": 1017}, {"month": "2011-10", "new": 293, "customers": 1361, "returning": 1068}, {"month": "2011-11", "new": 273, "customers": 1660, "returning": 1387}, {"month": "2011-12", "new": 217, "customers": 614, "returning": 397}], "products": [{"description": "REGENCY CAKESTAND 3 TIER", "net": 344563.08999999997}, {"description": "WHITE HANGING HEART T-LIGHT HOLDER", "net": 267102.46}, {"description": "JUMBO BAG RED RETROSPOT", "net": 185566.54}, {"description": "PAPER CRAFT , LITTLE BIRDIE", "net": 168469.6}, {"description": "PARTY BUNTING", "net": 149187.19}, {"description": "ASSORTED COLOUR BIRD ORNAMENT", "net": 132187.91999999998}, {"description": "PAPER CHAIN KIT 50'S CHRISTMAS", "net": 123141.78}, {"description": "CHILLI LIGHTS", "net": 85489.99}, {"description": "MEDIUM CERAMIC TOP STORAGE JAR", "net": 81700.92000000001}, {"description": "SMALL POPCORN HOLDER", "net": 80920.68}], "generated": "13.11.2026"};
+const money = v => v.toLocaleString('ru-RU', { maximumFractionDigits: 0 }) + ' £';
 const num = v => v.toLocaleString('ru-RU');
 const monthLabel = m => {
   const [y, mm] = m.split('-');
@@ -91,7 +92,7 @@ const monthLabel = m => {
 };
 
 const layout = (extra = {}) => Object.assign({
-  margin: { l: 56, r: 24, t: 16, b: 48 },
+  margin: { l: 60, r: 24, t: 16, b: 48 },
   paper_bgcolor: 'rgba(0,0,0,0)',
   plot_bgcolor: 'rgba(0,0,0,0)',
   font: { family: 'inherit', size: 12, color: '#374151' },
@@ -99,9 +100,9 @@ const layout = (extra = {}) => Object.assign({
 }, extra);
 const config = { displayModeBar: false, responsive: true };
 
-document.getElementById('kpi-revenue').textContent = rub(DATA.kpi.revenue);
+document.getElementById('kpi-revenue').textContent = money(DATA.kpi.revenue);
 document.getElementById('kpi-orders').textContent = num(DATA.kpi.orders);
-document.getElementById('kpi-aov').textContent = rub(DATA.kpi.aov);
+document.getElementById('kpi-aov').textContent = money(DATA.kpi.aov);
 document.getElementById('kpi-customers').textContent = num(DATA.kpi.customers);
 document.getElementById('kpi-repeat').textContent = DATA.kpi.repeat_share.toFixed(1) + ' %';
 
@@ -110,7 +111,7 @@ const months = DATA.monthly.map(r => monthLabel(r.month));
 Plotly.newPlot('chart-monthly', [
   {
     x: months, y: DATA.monthly.map(r => r.revenue), type: 'bar', name: 'Выручка',
-    marker: { color: '#3b6fd4' }, hovertemplate: '%{x}<br>%{y:,.0f} ₽<extra></extra>'
+    marker: { color: '#3b6fd4' }, hovertemplate: '%{x}<br>%{y:,.0f} £<extra></extra>'
   },
   {
     x: months, y: DATA.monthly.map(r => r.orders), type: 'scatter', mode: 'lines+markers',
@@ -118,18 +119,18 @@ Plotly.newPlot('chart-monthly', [
     hovertemplate: '%{x}<br>%{y} заказов<extra></extra>'
   }
 ], layout({
-  yaxis: { title: 'Выручка, ₽', gridcolor: '#eef0f3', tickformat: ',.0f' },
+  yaxis: { title: 'Выручка, £', gridcolor: '#eef0f3', tickformat: ',.0f' },
   yaxis2: { title: 'Заказы', overlaying: 'y', side: 'right', showgrid: false },
   legend: { orientation: 'h', y: 1.12, x: 0 },
   bargap: 0.35
 }), config);
 
-Plotly.newPlot('chart-category', [{
-  labels: DATA.category.map(r => r.category),
-  values: DATA.category.map(r => r.net),
+Plotly.newPlot('chart-country', [{
+  labels: DATA.countries.map(r => r.country),
+  values: DATA.countries.map(r => r.revenue),
   type: 'pie', hole: 0.55,
-  marker: { colors: ['#3b6fd4','#5b8def','#7aa7f5','#9cc0f8','#f2b134','#f6c65b','#9aa7b8','#c3ccd8'] },
-  textinfo: 'percent', hovertemplate: '%{label}<br>%{value:,.0f} ₽<extra></extra>'
+  marker: { colors: ['#3b6fd4','#5b8def','#7aa7f5','#9cc0f8','#f2b134','#f6c65b','#9aa7b8','#c3ccd8','#dfe5ee'] },
+  textinfo: 'percent', hovertemplate: '%{label}<br>%{value:,.0f} £<extra></extra>'
 }], layout({ showlegend: true, legend: { orientation: 'v', x: 0.98, y: 0.5 } }), config);
 
 Plotly.newPlot('chart-cohort', [
@@ -145,15 +146,15 @@ Plotly.newPlot('chart-aov', [
      name: 'Средний чек', line: { color: '#3b6fd4', width: 3 } },
   { x: months, y: DATA.monthly.map(r => r.median_check), type: 'scatter', mode: 'lines+markers',
      name: 'Медиана', line: { color: '#f2b134', width: 3, dash: 'dot' } }
-], layout({ yaxis: { title: '₽', gridcolor: '#eef0f3', tickformat: ',.0f' },
+], layout({ yaxis: { title: '£', gridcolor: '#eef0f3', tickformat: ',.0f' },
              legend: { orientation: 'h', y: 1.12, x: 0 } }), config);
 
 const products = [...DATA.products].reverse();
 Plotly.newPlot('chart-products', [{
-  x: products.map(r => r.net), y: products.map(r => r.name), type: 'bar', orientation: 'h',
-  marker: { color: '#3b6fd4' }, hovertemplate: '%{y}<br>%{x:,.0f} ₽<extra></extra>'
-}], layout({ margin: { l: 190, r: 24, t: 8, b: 40 },
-              xaxis: { title: 'Выручка, ₽', gridcolor: '#eef0f3', tickformat: ',.0f' } }), config);
+  x: products.map(r => r.net), y: products.map(r => r.description), type: 'bar', orientation: 'h',
+  marker: { color: '#3b6fd4' }, hovertemplate: '%{y}<br>%{x:,.0f} £<extra></extra>'
+}], layout({ margin: { l: 240, r: 24, t: 8, b: 40 },
+              xaxis: { title: 'Выручка, £', gridcolor: '#eef0f3', tickformat: ',.0f' } }), config);
 </script>
 </body>
 </html>
