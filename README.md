@@ -1,5 +1,10 @@
 # Дашборд по данным Online Retail II
 
+## Summary (EN)
+
+A static dashboard built from Online Retail II: revenue, orders, average and median check, customer and repeat metrics, monthly dynamics, country mix, new vs returning customers and top products. pandas for aggregation, Plotly for charts, live demo on GitHub Pages.
+
+
 Статический дашборд с ключевыми метриками интернет-магазина: выручка, заказы, средний чек, покупатели и доля повторных, динамика по месяцам, структура выручки по странам, новые и вернувшиеся клиенты, топ товаров.
 
 Данные — [Online Retail II](https://www.kaggle.com/datasets/mashlyn/online-retail-ii-uci) (Kaggle, лицензия CC0 1.0): заказы британского оптовика за декабрь 2009 — декабрь 2011. Дашборд использует ту же подготовку, что и SQL-кейс [`sql-retail-case`](../sql-retail-case), поэтому метрики совпадают с запросами.
