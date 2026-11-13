@@ -69,3 +69,12 @@ python3 -m http.server 8000
 ## Лицензия
 
 Код и материалы — [MIT](LICENSE). Данные принадлежат источнику: [Online Retail II](https://www.kaggle.com/datasets/mashlyn/online-retail-ii-uci) — CC0 1.0 (Kaggle).
+
+## Тесты
+
+```bash
+pip install pytest
+pytest -q
+```
+
+Проверяется сборка KPI, месячных рядов, стран, когорт и топа товаров на фикстурных данных (`tests/test_build_dashboard.py`).
