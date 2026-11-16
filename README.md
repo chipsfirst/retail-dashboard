@@ -78,7 +78,7 @@ python3 -m http.server 8000
 ## Тесты
 
 ```bash
-pip install pytest
+pip install -r requirements-dev.txt
 pytest -q
 ```
 
